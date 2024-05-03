@@ -12,6 +12,8 @@ Welcome to the Podcast Downloader application! This tool allows you to download 
 
 Access the live application here: [Podcast Downloader](https://podcast-downloader-03f5e4ae4399.herokuapp.com/)
 
+
+
 ## How It Works
 
 1. **Enter the RSS Feed URL:** Simply paste the RSS feed URL of the podcast you wish to download in the provided field.
@@ -50,7 +52,13 @@ The application will be available at `http://localhost:3000`.
 
 ## Contributions
 
-Contributions are always welcome! 
+Code Contributions are always welcome! 
+
+Also if you like this project, consider supporting me by buying me a coffee:
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/shlomobam)
+
+
 
 ## License
 
