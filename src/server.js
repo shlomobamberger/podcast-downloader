@@ -5,14 +5,23 @@ const RSSParser = require('rss-parser');
 const axios = require('axios');
 const JSZip = require('jszip');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 const port = process.env.PORT || 3000;
+const downloadsFolder = path.join(__dirname, 'downloads');
+
+// Ensure the downloads folder exists
+if (!fs.existsSync(downloadsFolder)) {
+  fs.mkdirSync(downloadsFolder);
+}
 
 app.use(cors());
 app.use(express.static('public'));
+app.use('/downloads', express.static(downloadsFolder)); // Serve files from the downloads folder
 
 const parser = new RSSParser();
 let currentDownloads = {};
@@ -35,12 +44,13 @@ io.on('connection', (socket) => {
       console.log(`Total episodes: ${feed.items.length}`);
 
       const zip = new JSZip();
+      const filename = `podcast_${Date.now()}.zip`;
+      const filepath = path.join(downloadsFolder, filename);
 
       for (let i = 0; i < feed.items.length; i++) {
         if (!currentDownloads[socket.id]) break; // Stop if cancellation flag is set
 
         const item = feed.items[i];
-        // console.log(`Downloading: ${item.title} (${i + 1} of ${feed.items.length})`);
         console.log(`Downloading... (${i + 1} of ${feed.items.length})`);
         const response = await axios.get(item.enclosure.url, { responseType: 'arraybuffer' });
         zip.file(item.title + '.mp3', response.data);
@@ -52,22 +62,23 @@ io.on('connection', (socket) => {
 
       if (currentDownloads[socket.id]) {
         console.log('Download completed');
-        const content = await zip.generateAsync({ type: 'nodebuffer' });
-        console.log('zip generated')
-        socket.emit('completed', content.toString('base64'));
+        await zip.generateNodeStream({ type: 'nodebuffer', streamFiles: true })
+          .pipe(fs.createWriteStream(filepath))
+          .on('finish', () => {
+            console.log('Zip file has been written.');
+            socket.emit('completed', `/downloads/${filename}`);
+          });
       }
-    
-
     } catch (error) {
-        socket.emit('error', 'Error processing your request');
+      socket.emit('error', 'Error processing your request');
     } finally {
-        delete currentDownloads[socket.id]; // Clean up after download completes or cancels
+      delete currentDownloads[socket.id]; // Clean up after download completes or cancels
     }
-    });
-    
-    socket.on('cancel_download', () => {
-        currentDownloads[socket.id] = false; // Set flag to false to cancel download
-    });
+  });
+
+  socket.on('cancel_download', () => {
+    currentDownloads[socket.id] = false; // Set flag to false to cancel download
+  });
 
 });
 

@@ -22,22 +22,19 @@ socket.on('progress', (data) => {
     document.getElementById('status').innerText = `Downloading: ${data.episode} (${data.progress})`;
 });
 
-
 socket.on('error', (message) => {
     document.getElementById('status').innerText = `Error: ${message}`;
     document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
 });
 
-socket.on('completed', (base64Data) => {
-    document.getElementById('status').innerText = "Download complete!";
+socket.on('completed', (downloadUrl) => {
+    document.getElementById('status').innerText = "Download complete! Click the link below to download your podcasts.";
     document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
 
-    console.log(`Received zip file size: ${base64Data.length} characters`);
     const link = document.createElement('a');
-    link.href = `data:application/zip;base64,${base64Data}`;
-    link.download = 'podcasts.zip';
+    link.href = downloadUrl;
+    link.innerText = "Download Podcasts";
+    link.download = 'podcasts.zip'; // This can be optional as the link already points directly to the file
     document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    document.getElementById('status').innerText = "Download complete!";
 });
+
