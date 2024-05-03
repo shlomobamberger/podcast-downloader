@@ -67,11 +67,17 @@ button.cancel:hover {
 
 /* Additional style for download link if needed */
 .download-link {
-    display: inline-block;
-    margin-top: 10px;
+    display: block; /* Ensures the link is on a new line */
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
     text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    text-align: center; /* Centers the text inside the link */
 }
 
-.download-link:active {
-    color: #fff; /* Keeps text color white when clicked */
+.download-link:hover {
+    background-color: #2980b9;
 }

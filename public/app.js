@@ -27,14 +27,18 @@ socket.on('error', (message) => {
     document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
 });
 
-socket.on('completed', (downloadUrl, title) => {
-    document.getElementById('status').innerText = "Download complete! Click the link below to download your podcasts.";
-    document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
+socket.on('completed', (downloadUrl) => {
+    const status = document.getElementById('status');
+    status.innerText = "Download complete! Click the link below to download your podcast as a zip file.";
 
     const link = document.createElement('a');
     link.href = downloadUrl;
     link.innerText = "Download Podcasts";
-    link.className = "download-link"; // Add a class for styling
-    document.body.appendChild(link);
+    link.className = "download-link"; // Ensure this class is styled appropriately
+    link.style.display = "block";  // Ensure the link appears on a new line
+
+    status.appendChild(link); // Append the link to the status container
+    document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
 });
+
 

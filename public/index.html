@@ -10,8 +10,8 @@
     <div class="container">
         <h1>Podcast Downloader</h1>
         <input type="text" id="rssInput" placeholder="Enter RSS URL">
-        <button onclick="downloadPodcast()">Download Episodes</button>
-        <button onclick="cancelDownload()" id="cancelButton" style="background-color: #e74c3c; display: none;">Cancel Download</button>
+        <button onclick="downloadPodcast()">Start Downloading Episodes</button>
+        <button onclick="cancelDownload()" id="cancelButton" style="background-color: #e74c3c; display: none;">Stop and Cancel Current Download</button>
         <p id="status"></p>
     </div>
     <script src="/socket.io/socket.io.js"></script>
