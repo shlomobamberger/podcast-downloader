@@ -81,3 +81,19 @@ button.cancel:hover {
 .download-link:hover {
     background-color: #2980b9;
 }
+
+/* Style for footer link */
+.coffee-link {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffffff; /* Match your site's color scheme */
+    text-align: center;
+    padding: 10px 0; /* Adds padding above and below the image */
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for some depth */
+}
+
+/* Clearfix to ensure content doesn't overlap with the sticky link */
+body {
+    padding-bottom: 70px; /* Adjust the padding to fit the height of your footer */
+}

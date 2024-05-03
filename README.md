@@ -55,4 +55,3 @@ Contributions are always welcome!
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-ree to adjust the content as needed to better fit your project's specifics or personal style. This README provides a basic structure that communicates the essential information about the application while inviting contributions and use.
