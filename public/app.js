@@ -27,14 +27,14 @@ socket.on('error', (message) => {
     document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
 });
 
-socket.on('completed', (downloadUrl) => {
+socket.on('completed', (downloadUrl, title) => {
     document.getElementById('status').innerText = "Download complete! Click the link below to download your podcasts.";
     document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
 
     const link = document.createElement('a');
     link.href = downloadUrl;
     link.innerText = "Download Podcasts";
-    link.download = 'podcasts.zip'; // This can be optional as the link already points directly to the file
+    link.className = "download-link"; // Add a class for styling
     document.body.appendChild(link);
 });
 

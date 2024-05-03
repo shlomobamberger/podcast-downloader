@@ -36,7 +36,7 @@ input[type="text"] {
 }
 
 /* Styles for the button */
-button {
+button, .download-link {
     cursor: pointer;
     padding: 10px 20px;
     background-color: #3498db;
@@ -47,7 +47,7 @@ button {
 }
 
 /* Button hover effect */
-button:hover {
+button:hover, .download-link:hover {
     background-color: #2980b9;
 }
 
@@ -65,3 +65,13 @@ button.cancel:hover {
     background-color: #c0392b;
 }
 
+/* Additional style for download link if needed */
+.download-link {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+.download-link:active {
+    color: #fff; /* Keeps text color white when clicked */
+}

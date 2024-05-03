@@ -7,6 +7,7 @@ const JSZip = require('jszip');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const sanitize = require('sanitize-filename');
 
 const app = express();
 const server = http.createServer(app);
@@ -44,8 +45,11 @@ io.on('connection', (socket) => {
       console.log(`Total episodes: ${feed.items.length}`);
 
       const zip = new JSZip();
-      const filename = `podcast_${Date.now()}.zip`;
+      const title = sanitize(feed.title || 'podcast'); // Safely use the podcast title or a default
+      const filename = `${title}.zip`;
+      // const filename = `podcast_${Date.now()}.zip`;
       const filepath = path.join(downloadsFolder, filename);
+
 
       for (let i = 0; i < feed.items.length; i++) {
         if (!currentDownloads[socket.id]) break; // Stop if cancellation flag is set
@@ -53,7 +57,7 @@ io.on('connection', (socket) => {
         const item = feed.items[i];
         console.log(`Downloading... (${i + 1} of ${feed.items.length})`);
         const response = await axios.get(item.enclosure.url, { responseType: 'arraybuffer' });
-        zip.file(item.title + '.mp3', response.data);
+        zip.file(sanitize(item.title) + '.mp3', response.data);
         socket.emit('progress', {
           episode: item.title,
           progress: `${i + 1} of ${feed.items.length}`
