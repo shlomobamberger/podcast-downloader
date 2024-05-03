@@ -39,11 +39,6 @@ io.on('connection', (socket) => {
       for (let i = 0; i < feed.items.length; i++) {
         if (!currentDownloads[socket.id]) break; // Stop if cancellation flag is set
 
-       // TODO: remove on production
-        if (i > 0) {
-            break;
-        }
-
         const item = feed.items[i];
         // console.log(`Downloading: ${item.title} (${i + 1} of ${feed.items.length})`);
         console.log(`Downloading... (${i + 1} of ${feed.items.length})`);
