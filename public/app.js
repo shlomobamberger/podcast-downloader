@@ -1,32 +1,39 @@
 const socket = io();
 
+function showDownloadButton() {
+    document.getElementById('downloadButton').style.display = 'inline-block';
+    document.getElementById('cancelButton').style.display = 'none';
+}
+
+function hideDownloadButton() {
+    document.getElementById('cancelButton').style.display = 'inline-block';
+    document.getElementById('downloadButton').style.display = 'none';
+}
+
 function downloadPodcast() {
     const rssUrl = document.getElementById('rssInput').value;
     if (!rssUrl) {
-        alert("Please enter an RSS URL");
+        document.getElementById('status').innerText = "Please enter a valid RSS feed URL";
         return;
     }
-
+    hideDownloadButton();
     document.getElementById('status').innerText = "Connecting to server...";
     socket.emit('download', rssUrl);
-    document.getElementById('cancelButton').style.display = 'inline-block'; // Show cancel button
 }
 
 function cancelDownload() {
     socket.emit('cancel_download');
     document.getElementById('status').innerText = "Download cancelled";
-    document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
-    document.getElementById('downloadButton').style.display = 'inline-block'; // Show download button
+    showDownloadButton();
 }
 
 socket.on('progress', (data) => {
     document.getElementById('status').innerText = `Downloading: ${data.episode} (${data.progress})`;
-    document.getElementById('downloadButton').style.display = 'none'; // Hide download button
 });
 
 socket.on('error', (message) => {
     document.getElementById('status').innerText = `Error: ${message}`;
-    document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
+    showDownloadButton();
 });
 
 socket.on('completed', (downloadUrl) => {
@@ -36,20 +43,17 @@ socket.on('completed', (downloadUrl) => {
     const link = document.createElement('a');
     link.href = downloadUrl;
     link.innerText = "Download Podcasts";
-    link.className = "download-link"; // Ensure this class is styled appropriately
-    link.style.display = "block";  // Ensure the link appears on a new line
+    link.className = "download-link"; 
+    link.style.display = "block"; 
 
-    // once actual dowload button is clicked, we will update the server about the download
     link.addEventListener('click', () => {
         socket.emit('zip_downloaded');
-        // hide the link after it is clicked
         link.style.display = 'none';
-        // show again the download button
-        document.getElementById('downloadButton').style.display = 'inline-block';
+        status.innerText = '';
+        showDownloadButton();
     });
 
-    status.appendChild(link); // Append the link to the status container
-    document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
+    status.appendChild(link); 
 });
 
 socket.on('downloadsCounterUpdate', (downloadsCounterUpdate) => {
