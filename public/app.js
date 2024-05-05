@@ -42,6 +42,10 @@ socket.on('completed', (downloadUrl) => {
     // once actual dowload button is clicked, we will update the server about the download
     link.addEventListener('click', () => {
         socket.emit('zip_downloaded');
+        // hide the link after it is clicked
+        link.style.display = 'none';
+        // show again the download button
+        document.getElementById('downloadButton').style.display = 'inline-block';
     });
 
     status.appendChild(link); // Append the link to the status container
