@@ -2,6 +2,7 @@
     "name": "podcast-downloader",
     "version": "1.0.0",
     "description": "Download podcasts from an RSS feed as a zip file.",
+    "type": "commonjs",
     "main": "src/server.js",
     "scripts": {
       "start": "node src/server.js"
@@ -13,7 +14,9 @@
       "jszip": "^3.7.1",
       "cors": "^2.8.5",
       "socket.io": "^4.0.0",
-      "sanitize-filename": "^1.6.1"
+      "sanitize-filename": "^1.6.1",
+      "aws-sdk": "^2.1027.0",
+      "dotenv": "^10.0.0"
     },
     "author": "",
     "license": "ISC"

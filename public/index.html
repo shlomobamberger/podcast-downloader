@@ -7,10 +7,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Badge Code - Do Not Change The Code -->
+    <a class="hitCounter" href="https://visitorshitcounter.com/" target="_blank" title="Hit counter" data-name="4287803bf9f1d3d9ad8c506077f2a631|5|external|1|#0099cc|#f5f5f5|small|s-hit">Hit Counter</a><script>document.write("<script type='text/javascript' src='https://visitorshitcounter.com/js/hitCounter.js?v="+Date.now()+"'><\/script>");</script>
+    <!-- Badge Code End Here -->
     <div class="container">
         <h1>Podcast Downloader</h1>
+        <div class="download-info">Already downloaded: <span id="downloadsCounter">0</span> podcasts</div>
         <input type="text" id="rssInput" placeholder="Enter RSS URL">
-        <button onclick="downloadPodcast()">Start Downloading Episodes</button>
+        <button onclick="downloadPodcast()" id="downloadButton">Start Downloading Episodes</button>
         <button onclick="cancelDownload()" id="cancelButton" style="background-color: #e74c3c; display: none;">Stop and Cancel Current Download</button>
         <p id="status"></p>
     </div>
